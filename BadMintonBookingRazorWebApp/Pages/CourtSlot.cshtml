@@ -136,11 +136,11 @@
                             <div class="form-group row">
                                 <div class="col-md-6">
 
-                                    <label for="1">Full Name</label>
+                                    <label for="1">Slot Start Time</label>
                                     <input asp-for="CourtSlot.SlotStartTime" class="form-control" />
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="1">Email</label>
+                                    <label for="1">Slot End Time</label>
                                     <input asp-for="CourtSlot.SlotEndTime" class="form-control" />
 
                                     @* <input asp-for="Currency.IsActive" type="checkbox" /> *@
@@ -152,11 +152,11 @@
                         <div class="col-md-12">
                             <div class="form-group row">
                                 <div class="col-md-6">
-                                    <label for="1">Phone</label>
+                                    <label for="1">Status</label>
                                     <input asp-for="CourtSlot.Status" class="form-control" />
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="1">Address1</label>
+                                    <label for="1">Slot Price</label>
                                     <input asp-for="CourtSlot.SlotPrice" class="form-control" />
                                 </div>
                             </div>
@@ -198,11 +198,11 @@
                     <div class="col-md-12">
                         <div class="form-group row">
                             <div class="col-md-6">
-                                <label for="1">Email</label>
+                                <label for="1">Slot Start Time</label>
                                 <input asp-for="CourtSlot.SlotStartTime" class="form-control" />
                             </div>
                             <div class="col-md-6">
-                                <label for="1">Phone</label>
+                                <label for="1">Slot End Time</label>
                                 <input asp-for="CourtSlot.SlotEndTime" class="form-control" />
                             </div>
                         </div>
@@ -210,11 +210,11 @@
                     <div class="col-md-12">
                         <div class="form-group row">
                             <div class="col-md-6">
-                                <label for="1">Address2</label>
+                                <label for="1">Price</label>
                                 <input asp-for="CourtSlot.SlotPrice" class="form-control" />
                             </div>
                             <div class="col-md-6">
-                                <label for="1">Address1</label>
+                                <label for="1">Status</label>
                                 <input asp-for="CourtSlot.Status" class="form-control" />
                             </div>
                         </div>
@@ -241,24 +241,22 @@
             $('#courtSlotModel').modal('show');
         }
 
-        function update(slotId, courtId, startTime, endTime, status, price) {
+        function update(startTime, endTime, status, price) {
             // Điền dữ liệu vào form
-            $('#frmUpdate input[name="CourtSlot.SlotId"]').val(slotId);
-            $('#frmUpdate input[name="CourtSlot.CourtId"]').val(courtId);
             $('#frmUpdate input[name="CourtSlot.SlotStartTime"]').val(startTime);
             $('#frmUpdate input[name="CourtSlot.SlotEndTime"]').val(endTime);
             $('#frmUpdate input[name="CourtSlot.Status"]').val(status);
             $('#frmUpdate input[name="CourtSlot.SlotPrice"]').val(price);
 
-            var isActiveCheckbox = document.getElementById('isActiveCheckbox');
+            // var isActiveCheckbox = document.getElementById('isActiveCheckbox');
 
-            if (isActive.toLowerCase() === 'true') {
-                isActiveCheckbox.checked = true;
-                console.log('isActive:', isActive);
-            } else {
-                isActiveCheckbox.checked = false;
-                console.log('isActive:', isActive);
-            }
+            // if (isActive.toLowerCase() === 'true') {
+            //     isActiveCheckbox.checked = true;
+            //     console.log('isActive:', isActive);
+            // } else {
+            //     isActiveCheckbox.checked = false;
+            //     console.log('isActive:', isActive);
+            // }
 
             $('#courtSlotModelUpdate').modal('show');
 

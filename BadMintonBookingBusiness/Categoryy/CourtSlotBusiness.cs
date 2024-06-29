@@ -49,7 +49,7 @@ namespace BadMintonBookingBusiness
                 #region Business rule
                 #endregion
 
-                var courtSlots = await _unitOfWork.CourtSlotsRepository.GetAllAsync();
+                var courtSlots = await _unitOfWork.CourtSlotsRepository.GetAllIncludeCourt();
 
                 if (courtSlots == null)
                 {
