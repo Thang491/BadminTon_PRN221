@@ -18,11 +18,6 @@ namespace BadMintonData.Base
             _context ??= new NET1702_PRN221_BadMintonContext();
             _dbSet ??= _context.Set<T>();
         }
-        public async Task<List<T>> GetAllCourtSlots()
-        {
-            var slotWithCourt = _context.CourtSlots.Include(a => a.Court);
-            return await _dbSet.ToListAsync();
-        }
         public IQueryable<T> GetAll()
         {
             return _dbSet;

@@ -13,5 +13,10 @@ namespace BadMintonData.Repository
     {
         public CourtSlotsRepository() { }
         public CourtSlotsRepository(NET1702_PRN221_BadMintonContext context) => _context ??= context;
+        
+        public async Task<List<CourtSlot>> GetAllIncludeCourt()
+        {
+            return await _dbSet.Include(a => a.Court).ToListAsync();
+        }
     }
 }
