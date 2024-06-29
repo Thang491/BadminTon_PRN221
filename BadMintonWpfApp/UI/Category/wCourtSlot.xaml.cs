@@ -96,7 +96,7 @@ namespace BadMintonWpfApp.UI.Category
                 CourtSlot courtSlot = new CourtSlot()
                 {
                     SlotId = Guid.NewGuid(),
-                    CourtId = Guid.Parse("9D3D69DD-0F65-4096-A1F8-BC89975BEA95"),
+                    CourtId = Guid.Parse(courtId),
                     SlotStartTime = startTime,
                     SlotEndTime = endTime,
                     SlotPrice = slotPrice,
