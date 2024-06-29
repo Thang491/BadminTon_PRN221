@@ -32,6 +32,12 @@ namespace BadMintonWpfApp
             p.Owner = this;
             p.Show();
         }
-        
+        private void Open_CourtSlots_Click(object sender, RoutedEventArgs e)
+        {
+            var p = new wCourtSlot();
+            p.Owner = this;
+            p.Show();
+        }
+
     }
 }
