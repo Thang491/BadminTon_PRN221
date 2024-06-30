@@ -1,0 +1,57 @@
+﻿@page
+@model BadMintonBookingRazorWebApp.Pages.LoginModel
+@{
+    Layout = "_LayoutLogin";
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    body {
+        background-image: url('/images/badminton-court.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+    }
+
+    .login-container {
+        background-color: rgba(255, 255, 255, 0.9); /* Nền mờ trắng để dễ đọc */
+        padding: 40px; /* Tăng kích thước padding */
+        border-radius: 10px;
+        box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.2); /* Tăng bóng đổ */
+        max-width: 600px; /* Tăng kích thước tối đa */
+        width: 100%;
+    }
+
+    .form-label {
+        font-size: 1.2rem; /* Tăng kích thước font cho nhãn */
+    }
+
+    .form-control {
+        font-size: 1.1rem; /* Tăng kích thước font cho input */
+        padding: 10px; /* Tăng padding cho input */
+    }
+
+</style>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="login-container">
+        <h3 class="text-center mb-4">@ViewData["Title"]</h3>
+        <form method="post">
+            <div class="mb-3">
+                <label for="Input_Email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="Input_Email" name="Input.Email" placeholder="name@example.com" required>
+            </div>
+            <div class="mb-3">
+                <label for="Input_Password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="Input_Password" name="Input.Password" placeholder="Password" required>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </form>
+        <div class="text-center mt-3">
+            <a href="/Register" class="link-secondary">Don't have an account? Register</a>
+        </div>
+    </div>
+</div>

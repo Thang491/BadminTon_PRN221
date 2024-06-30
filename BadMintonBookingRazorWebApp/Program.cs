@@ -1,7 +1,8 @@
-var builder = WebApplication.CreateBuilder(args);
+﻿var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
 
 var app = builder.Build();
 
@@ -19,6 +20,16 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+
+    // Configure the default route to redirect to the Login page
+    endpoints.MapGet("/", async context =>
+    {
+        context.Response.Redirect("/Login");
+    });
+});
 
 app.MapRazorPages();
 
