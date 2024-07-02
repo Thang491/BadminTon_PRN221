@@ -1,9 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
 
 namespace BadMintonBookingRazorWebApp.Pages
 {
+
     public class LoginModel : PageModel
     {
        
@@ -20,16 +25,28 @@ namespace BadMintonBookingRazorWebApp.Pages
         {
         }
 
-        public  IActionResult OnPost()
+        public async  Task<IActionResult> OnPost()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-
+            IConfiguration configuration = new ConfigurationBuilder()
+                   .SetBasePath(Directory.GetCurrentDirectory())
+                   .AddJsonFile("appsettings.json", true, true).Build();
+            string Email = configuration["ConnectionStrings:Email"];
+            string Password = configuration["ConnectionStrings:Password"];
             // Here you would typically validate the user credentials with your database
-            if (Input.Email == "admin@gmail.com" && Input.Password == "admin")
-            {              
+            if (Input.Email == Email && Input.Password == Password)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, Input.Email)
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
                 return RedirectPermanent("/Index");
 
             }
