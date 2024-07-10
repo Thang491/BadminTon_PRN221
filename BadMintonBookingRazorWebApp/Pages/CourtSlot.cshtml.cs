@@ -100,10 +100,7 @@ namespace BadMintonBookingRazorWebApp.Pages
         {
             Guid guid = Guid.NewGuid();
             this.CourtSlot.SlotId = guid;
-<<<<<<< HEAD
-=======
             this.CourtSlot.CourtId = new Guid("03C1BAC0-111B-4A1D-91F7-F69D0FB530A0");
->>>>>>> main
             var courtSlotResult = _courtSlotBusiness.Save(this.CourtSlot);
             if (courtSlotResult != null)
             {

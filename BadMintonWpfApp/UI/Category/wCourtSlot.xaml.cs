@@ -66,6 +66,7 @@ namespace BadMintonWpfApp.UI.Category
                             txtCourtId.Text = courtSlot.CourtId.ToString();
                             txtCourtSlotsStartTime.Text = courtSlot.SlotStartTime.ToString();
                             txtCourtSlotsEndTime.Text = courtSlot.SlotEndTime.ToString();
+                            txtCourtsSlotPrice.Text = courtSlot.SlotPrice.ToString();
                             txtCourtSlotsStatus.Text = courtSlot.Status.ToString();
                         }
                     }
@@ -96,7 +97,7 @@ namespace BadMintonWpfApp.UI.Category
                 CourtSlot courtSlot = new CourtSlot()
                 {
                     SlotId = Guid.NewGuid(),
-                    CourtId = Guid.Parse("9D3D69DD-0F65-4096-A1F8-BC89975BEA95"),
+                    CourtId = Guid.Parse("03C1BAC0-111B-4A1D-91F7-F69D0FB530A0"),
                     SlotStartTime = startTime,
                     SlotEndTime = endTime,
                     SlotPrice = slotPrice,
