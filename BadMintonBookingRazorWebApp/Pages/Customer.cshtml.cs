@@ -2,6 +2,7 @@
 using BadMintonBookingBusiness.Categoryy;
 using BadMintonBookingRazorWebApp.Pages.Shared;
 using BadMintonData.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +10,8 @@ using System.Runtime.CompilerServices;
 
 namespace BadMintonBookingRazorWebApp.Pages
 {
+    [Authorize]
+
     public class CustomerModel : PageModel
     {
         private readonly ICustomerBusiness _customerBusiness = new CustomerBusiness();

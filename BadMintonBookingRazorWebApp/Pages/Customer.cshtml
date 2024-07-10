@@ -5,6 +5,18 @@
     var customers = Model.customer;
 
 }
+<style>
+    body {
+        background-image: url('/images/badmintonn.jpg'); /* Hình nền của bạn */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        position: relative; /* Để các phần tử con có thể đặt vị trí tuyệt đối hoặc tương đối */
+    }
+
+</style>
+
 <div class="text-center">
     <h1 class="display-6">Customer management</h1>
 </div>
@@ -127,7 +139,7 @@
             {
                 @Html.AntiForgeryToken()
                 <div class="modal-header">
-                    <h5 class="modal-title" id="customerModalLabel">Customer Transaction</h5>
+                    <h5 class="modal-title" id="customerModalLabel">Customer Management</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -169,8 +181,9 @@
                                     <input asp-for="Customer.Address2" class="form-control" />
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="1">Active</label>
-                                  <input asp-for="Customer.IsActive" type="checkbox" />
+                                    <label asp-for="Customer.Gender" class="control-label"></label>
+                                    <select asp-for="Customer.Gender" class="form-control" asp-items="Model.GenderOptions"></select>
+                                    <span asp-validation-for="Customer.Gender" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -189,9 +202,9 @@
                         <div class="col-md-12">
                             <div class="form-group row">
                                 <div class="col-md-6">
-                                    <label asp-for="Customer.Gender" class="control-label"></label>
-                                    <select asp-for="Customer.Gender" class="form-control" asp-items="Model.GenderOptions"></select>
-                                    <span asp-validation-for="Customer.Gender" class="text-danger"></span>
+                                  
+                                    <label for="1">Active</label>
+                                    <input asp-for="Customer.IsActive" type="checkbox" />
                                 </div>
 
                             </div>
@@ -217,7 +230,7 @@
             {
                 @Html.AntiForgeryToken()
                 <div class="modal-header">
-                    <h5 class="modal-title" id="customerModalUpdateLabel">Customer Transaction 2</h5>
+                    <h5 class="modal-title" id="customerModalUpdateLabel">Customer Management</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -259,8 +272,9 @@
                                 <input asp-for="Customer.Address2" class="form-control" />
                             </div>
                             <div class="col-md-6">
-                                <label for="1">Active</label>
-                                <input asp-for="Customer.IsActive" type="checkbox" id="isActiveCheckbox"/>
+                                <label asp-for="Customer.Gender" class="control-label"></label>
+                                <select asp-for="Customer.Gender" class="form-control" asp-items="Model.GenderOptions"></select>
+                                <span asp-validation-for="Customer.Gender" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -279,9 +293,9 @@
                     <div class="col-md-12">
                         <div class="form-group row">
                             <div class="col-md-6">
-                                <label asp-for="Customer.Gender" class="control-label"></label>
-                                <select asp-for="Customer.Gender" class="form-control" asp-items="Model.GenderOptions"></select>
-                                <span asp-validation-for="Customer.Gender" class="text-danger"></span>
+                              
+                                <label for="1">Active</label>
+                                <input asp-for="Customer.IsActive" type="checkbox" id="isActiveCheckbox" />
                             </div>
 
                         </div>
