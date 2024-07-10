@@ -62,7 +62,11 @@
 
                                 <form method="post">
                                     @*                                    asp-page-handler="Update" asp-route-id="@courtSlot.SlotId"*@
+<<<<<<< HEAD
                                     <button type="button" class="btn btn-primary" onclick="update('@courtSlot.SlotStartTime', '@courtSlot.SlotEndTime','@courtSlot.Status', '@courtSlot.SlotPrice');">Update</button>
+=======
+                                    <button type="button" class="btn btn-primary" onclick="update('@courtSlot.SlotId','@courtSlot.CourtId','@courtSlot.SlotStartTime', '@courtSlot.SlotEndTime','@courtSlot.Status', '@courtSlot.SlotPrice');">Update</button>
+>>>>>>> main
 
                                     <button type="submit" class="btn btn-danger" asp-page-handler="Delete" asp-route-id="@courtSlot.SlotId">Delete</button>
                                 </form>
@@ -241,8 +245,15 @@
             $('#courtSlotModel').modal('show');
         }
 
+<<<<<<< HEAD
         function update(startTime, endTime, status, price) {
             // Điền dữ liệu vào form
+=======
+        function update(slotid, courtid, startTime, endTime, status, price) {
+            // Điền dữ liệu vào form
+            $('#frmUpdate input[name="CourtSlot.SlotId"]').val(slotid);
+            $('#frmUpdate input[name="CourtSlot.CourtId"]').val(courtid);
+>>>>>>> main
             $('#frmUpdate input[name="CourtSlot.SlotStartTime"]').val(startTime);
             $('#frmUpdate input[name="CourtSlot.SlotEndTime"]').val(endTime);
             $('#frmUpdate input[name="CourtSlot.Status"]').val(status);
