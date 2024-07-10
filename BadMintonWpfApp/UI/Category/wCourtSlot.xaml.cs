@@ -66,6 +66,7 @@ namespace BadMintonWpfApp.UI.Category
                             txtCourtId.Text = courtSlot.CourtId.ToString();
                             txtCourtSlotsStartTime.Text = courtSlot.SlotStartTime.ToString();
                             txtCourtSlotsEndTime.Text = courtSlot.SlotEndTime.ToString();
+                            txtCourtsSlotPrice.Text = courtSlot.SlotPrice.ToString();
                             txtCourtSlotsStatus.Text = courtSlot.Status.ToString();
                         }
                     }
