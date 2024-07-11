@@ -12,11 +12,13 @@ namespace BadMintonBookingRazorWebApp.Pages
     public class CourtSlotModel : PageModel
     {
         private readonly ICourtSlotBusiness _courtSlotBusiness = new CourtSlotBusiness();
+        private readonly ICourtBusiness _courtBusiness = new CourtBusiness();
         public string Message { get; set; } = default;
         [BindProperty]
         public CourtSlot CourtSlot { get; set; } = default;
         public Court Court { get; set; }
         public List<CourtSlot> CourtSlots { get; set; } = new List<CourtSlot>();
+        public List<SelectListItem> CourtNameOptions { get; set; }
         [BindProperty]
         public string SearchInput { get; set; }
         public PaginatedList<CourtSlot> courtSlot { get; set; }
@@ -26,6 +28,7 @@ namespace BadMintonBookingRazorWebApp.Pages
 
         public void OnGet()
         {
+            CourtNameOptions = GetCourtNameList();
             var courtSlots = this.GetCourtSlots();
             int pageSize = 5;
             courtSlot = PaginatedList<CourtSlot>.Create(courtSlots.AsQueryable(), PageIndex, pageSize);
@@ -84,6 +87,20 @@ namespace BadMintonBookingRazorWebApp.Pages
             }
 
         }
+
+        public List<SelectListItem> GetCourtNameList()
+        {
+            var courtNames = (List<Court>)_courtBusiness.GetAll().Result.Data;
+            var list = courtNames.ToList()
+                .Select(d => new SelectListItem
+                {
+                    Value = d.CourtId.ToString(),
+                    Text = d.CourtName
+                });
+            return list.Distinct().ToList();
+        }
+
+
         private List<CourtSlot> GetCourtSlots()
         {
             var courtSlotResult = _courtSlotBusiness.GetAll();

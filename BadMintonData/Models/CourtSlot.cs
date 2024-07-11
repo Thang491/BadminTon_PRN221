@@ -11,9 +11,9 @@ public partial class CourtSlot
 
     public Guid CourtId { get; set; }
 
-    public string SlotStartTime { get; set; }
+    public DateTime SlotStartTime { get; set; }
 
-    public string SlotEndTime { get; set; }
+    public DateTime SlotEndTime { get; set; }
 
     public bool Status { get; set; }
 
