@@ -26,7 +26,7 @@ namespace BadMintonBookingBusiness
             try
             {
                 var courtSlots = await _unitOfWork.CourtSlotsRepository.GetAllAsync();
-                var slot = courtSlots.Where(e => e.SlotStartTime.Contains(date)).ToList();
+                var slot = courtSlots.Where(e => e.SlotStartTime.ToString().Contains(date)).ToList();
                 if (courtSlots == null)
                 {
                     return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA__MSG);

@@ -23,11 +23,26 @@ namespace BadMintonWpfApp.UI.Category
     public partial class wCourtSlot : Window
     {
         private readonly CourtSlotBusiness _courtSlotBusiness;
+        private readonly CourtBusiness _courtBusiness;
         public wCourtSlot()
         {
             InitializeComponent();
             _courtSlotBusiness = new CourtSlotBusiness();
+            _courtBusiness = new CourtBusiness();
             LoadgrdCourtSlotsAsync();
+            LoadComboBox();
+        }
+
+        private async void LoadComboBox()
+        {
+            var courts = await _courtBusiness.GetAll();
+            var list = courts.Data as List<Court>;
+            for (int i = 0; i < list.Count; i++)
+            {
+                txtCourtId.Items.Add(list[i]);
+            }
+            txtCourtId.DisplayMemberPath = "CourtName";
+            txtCourtId.SelectedValuePath = "CourtId";
         }
 
         private async void grdCourtSlots_ButtonDelete_Click(object sender, RoutedEventArgs e)
@@ -74,10 +89,11 @@ namespace BadMintonWpfApp.UI.Category
                 }
             }
         }
+
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
             string slotId = txtSlotsId.Text;
-            string courtId = txtCourtId.Text;
+            string courtId = txtCourtId.SelectedValue.ToString();
             string startTime = txtCourtSlotsStartTime.Text;
             string endTime = txtCourtSlotsEndTime.Text;
             string status = txtCourtSlotsStatus.Text;
@@ -98,8 +114,8 @@ namespace BadMintonWpfApp.UI.Category
                 {
                     SlotId = Guid.NewGuid(),
                     CourtId = Guid.Parse(courtId),
-                    SlotStartTime = startTime,
-                    SlotEndTime = endTime,
+                    SlotStartTime = DateTime.Parse(startTime),
+                    SlotEndTime = DateTime.Parse(endTime),
                     SlotPrice = slotPrice,
                     Status = bool.Parse(status),
                 };
@@ -117,8 +133,8 @@ namespace BadMintonWpfApp.UI.Category
                 if (result != null)
                 {
                     CourtSlot courtSlot = (CourtSlot)result.Data;
-                    courtSlot.SlotStartTime = startTime;
-                    courtSlot.SlotEndTime = endTime;
+                    courtSlot.SlotStartTime = DateTime.Parse("startTime");
+                    courtSlot.SlotEndTime = DateTime.Parse("endTime");
                     courtSlot.SlotPrice = slotPrice;
                     var Updateresult = _courtSlotBusiness.Update(courtSlot);
                     if (Updateresult != null)

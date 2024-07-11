@@ -12,21 +12,27 @@ namespace BadMintonData
     {
         private NET1702_PRN221_BadMintonContext _unitOfWorkContext;
         private CustomerRepository _customer;
-        private CourtSlotsRepository _courtSlot;
+        private CourtSlotsRepository _courtslot;
+        private CourtRepository _court;
         public UnitOfWork()
         {
             _unitOfWorkContext ??= new NET1702_PRN221_BadMintonContext();
         }
     
-    public CustomerRepository CustomerRepository
+        public CustomerRepository CustomerRepository
         {
             get { return _customer ??= new CustomerRepository(_unitOfWorkContext); }
             //get { return _customer ??= new Repository.CustomerRepository(); }
         }
-
+    
         public CourtSlotsRepository CourtSlotsRepository
         {
             get { return _courtSlot ??= new Repository.CourtSlotsRepository(_unitOfWorkContext); }
+            //get { return _customer ??= new Repository.CustomerRepository(); }
+        }
+        public CourtRepository CourtRepository
+        {
+            get { return _court ??= new CourtRepository(_unitOfWorkContext); }
             //get { return _customer ??= new Repository.CustomerRepository(); }
         }
     }
