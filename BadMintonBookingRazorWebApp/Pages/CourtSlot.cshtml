@@ -203,6 +203,7 @@
                         <div class="col-md-12">
                             <div class="form-group row">
                                 <div class="col-md-6">
+                                    <input type="hidden" asp-for="CourtSlot.SlotId"/>
                                     <label asp-for="CourtSlot.CourtId" class="control-label"></label>
                                     <select asp-for="CourtSlot.CourtId" class="form-control" asp-items="Model.CourtNameOptions"></select>
                                     <span asp-validation-for="CourtSlot.CourtId" class="text-danger"></span>
@@ -229,7 +230,7 @@
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="1">Is Active?</label>
-                                    <input asp-for="CourtSlot.Status" type="checkbox" />
+                                    <input asp-for="CourtSlot.Status" type="checkbox" id="isActiveCheckbox" />
                                 </div>
                             </div>
                         </div>
@@ -264,12 +265,17 @@
             $('#frmUpdate input[name="CourtSlot.SlotEndTime"]').val(endTime);
             $('#frmUpdate input[name="CourtSlot.Status"]').val(status);
             $('#frmUpdate input[name="CourtSlot.SlotPrice"]').val(price);
+            var isActiveCheckbox = document.getElementById('isActiveCheckbox');
 
+            if (status.toLowerCase() === 'true') {
+                isActiveCheckbox.checked = true;
+                console.log('isActive:', status);
+            } else {
+                isActiveCheckbox.checked = false;
+                console.log('isActive:', status);
+            }
             $('#courtSlotModelUpdate').modal('show');
-
         }
-
-
 
     </script>
 
