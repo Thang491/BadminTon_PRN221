@@ -2,6 +2,7 @@
 using BadMintonBookingBusiness.Categoryy;
 using BadMintonBookingRazorWebApp.Pages.Shared;
 using BadMintonData.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,13 +10,15 @@ using System.Runtime.CompilerServices;
 
 namespace BadMintonBookingRazorWebApp.Pages
 {
+    [Authorize]
+
     public class CourtSlotModel : PageModel
     {
         private readonly ICourtSlotBusiness _courtSlotBusiness = new CourtSlotBusiness();
         private readonly ICourtBusiness _courtBusiness = new CourtBusiness();
         public string Message { get; set; } = default;
         [BindProperty]
-        public CourtSlot CourtSlot { get; set; } = default;
+        public CourtSlot CourtSlot { get; set; } = default; 
         public Court Court { get; set; }
         public List<CourtSlot> CourtSlots { get; set; } = new List<CourtSlot>();
         public List<SelectListItem> CourtNameOptions { get; set; }
@@ -41,7 +44,6 @@ namespace BadMintonBookingRazorWebApp.Pages
         }
         public async Task<IActionResult> OnPostUpdate()
         {
-
             await this.UpdateCourtSlot(this.CourtSlot);
             return RedirectToPage();
         }
@@ -76,7 +78,7 @@ namespace BadMintonBookingRazorWebApp.Pages
             {
                 var courtSlots = _courtSlotBusiness.SearchCourtSlotByDate(SearchInput);
                 CourtSlots = (List<CourtSlot>)courtSlots.Result.Data;
-                int pageSize = 5; // Số lượng phần tử trên mỗi trang
+                int pageSize = 5;
                 courtSlot = PaginatedList<CourtSlot>.Create(CourtSlots.AsQueryable(), PageIndex, pageSize);
 
                 return Page();
