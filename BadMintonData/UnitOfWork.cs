@@ -11,16 +11,16 @@ namespace BadMintonData
     public class UnitOfWork
     {
         private NET1702_PRN221_BadMintonContext _unitOfWorkContext;
-        private CustomerRepository _customer;
+        private CourtRepository _court;
         public UnitOfWork()
         {
             _unitOfWorkContext ??= new NET1702_PRN221_BadMintonContext();
         }
     
-    public CustomerRepository CustomerRepository
+    public CourtRepository CourtRepository
         {
-            get { return _customer ??= new Repository.CustomerRepository(_unitOfWorkContext); }
-            //get { return _customer ??= new Repository.CustomerRepository(); }
+            get { return _court ??= new Repository.CourtRepository(_unitOfWorkContext); }
+            //get { return _customer ??= new Repository.CourtRepository(); }
         }
     }
 }

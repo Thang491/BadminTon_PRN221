@@ -1,19 +1,19 @@
 ﻿using BadMintonBookingBusiness;
 using BadMintonBookingBusiness.Categoryy;
+using BadMintonBookingRazorWebApp.Pages.CusHub;
 using BadMintonBookingRazorWebApp.Pages.Shared;
 using BadMintonData.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using System.Runtime.CompilerServices;
 
 namespace BadMintonBookingRazorWebApp.Pages
 {
-    [Authorize]
-
     public class CustomerModel : PageModel
     {
+        private readonly IHubContext<CustomerHub> _hubContext;
 
 
         private readonly ICustomerBusiness _customerBusiness = new CustomerBusiness();
@@ -30,7 +30,10 @@ namespace BadMintonBookingRazorWebApp.Pages
         [BindProperty(SupportsGet = true)]
         public int PageIndex { get; set; } = 1;
         public int TotalPages { get; set; }
-
+        public CustomerModel(IHubContext<CustomerHub> hubContext)
+        {
+            _hubContext = hubContext;
+        }
 
         public void OnGet()
         {
@@ -59,6 +62,8 @@ namespace BadMintonBookingRazorWebApp.Pages
         {
 
             await this.UpdateCustomer(this.Customer);
+            await _hubContext.Clients.All.SendAsync("ReceiveCustomerUpdate", Customer);
+                                                     
             return RedirectToPage();
         }
 
@@ -76,6 +81,8 @@ namespace BadMintonBookingRazorWebApp.Pages
             if (customerResult != null)
             {
                 this.Message = customerResult.Result.Message;
+                
+
             }
             else
             {

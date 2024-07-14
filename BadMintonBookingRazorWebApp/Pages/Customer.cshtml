@@ -5,18 +5,6 @@
     var customers = Model.customer;
 
 }
-<style>
-    body {
-        background-image: url('/images/badmintonn.jpg'); /* Hình nền của bạn */
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        height: 100vh;
-        position: relative; /* Để các phần tử con có thể đặt vị trí tuyệt đối hoặc tương đối */
-    }
-
-</style>
-
 <div class="text-center">
     <h1 class="display-6">Customer management</h1>
 </div>
@@ -61,7 +49,7 @@
                 {
                     foreach (var customer in customers)
                     {
-                        <tr>
+                        <tr data-customer-id="@customer.CustomerId">
                             <td>@customer.FullName</td>
                             <td>@Model.GetGenderText(@customer.Gender)</td>
                             <td>@customer.Email</td>
@@ -139,7 +127,7 @@
             {
                 @Html.AntiForgeryToken()
                 <div class="modal-header">
-                    <h5 class="modal-title" id="customerModalLabel">Customer Management</h5>
+                    <h5 class="modal-title" id="customerModalLabel">Customer Transaction</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -181,9 +169,8 @@
                                     <input asp-for="Customer.Address2" class="form-control" />
                                 </div>
                                 <div class="col-md-6">
-                                    <label asp-for="Customer.Gender" class="control-label"></label>
-                                    <select asp-for="Customer.Gender" class="form-control" asp-items="Model.GenderOptions"></select>
-                                    <span asp-validation-for="Customer.Gender" class="text-danger"></span>
+                                    <label for="1">Active</label>
+                                  <input asp-for="Customer.IsActive" type="checkbox" />
                                 </div>
                             </div>
                         </div>
@@ -202,9 +189,9 @@
                         <div class="col-md-12">
                             <div class="form-group row">
                                 <div class="col-md-6">
-                                  
-                                    <label for="1">Active</label>
-                                    <input asp-for="Customer.IsActive" type="checkbox" />
+                                    <label asp-for="Customer.Gender" class="control-label"></label>
+                                    <select asp-for="Customer.Gender" class="form-control" asp-items="Model.GenderOptions"></select>
+                                    <span asp-validation-for="Customer.Gender" class="text-danger"></span>
                                 </div>
 
                             </div>
@@ -230,7 +217,7 @@
             {
                 @Html.AntiForgeryToken()
                 <div class="modal-header">
-                    <h5 class="modal-title" id="customerModalUpdateLabel">Customer Management</h5>
+                    <h5 class="modal-title" id="customerModalUpdateLabel">Customer Transaction 2</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -272,9 +259,8 @@
                                 <input asp-for="Customer.Address2" class="form-control" />
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="Customer.Gender" class="control-label"></label>
-                                <select asp-for="Customer.Gender" class="form-control" asp-items="Model.GenderOptions"></select>
-                                <span asp-validation-for="Customer.Gender" class="text-danger"></span>
+                                <label for="1">Active</label>
+                                <input asp-for="Customer.IsActive" type="checkbox" id="isActiveCheckbox"/>
                             </div>
                         </div>
                     </div>
@@ -293,9 +279,9 @@
                     <div class="col-md-12">
                         <div class="form-group row">
                             <div class="col-md-6">
-                              
-                                <label for="1">Active</label>
-                                <input asp-for="Customer.IsActive" type="checkbox" id="isActiveCheckbox" />
+                                <label asp-for="Customer.Gender" class="control-label"></label>
+                                <select asp-for="Customer.Gender" class="form-control" asp-items="Model.GenderOptions"></select>
+                                <span asp-validation-for="Customer.Gender" class="text-danger"></span>
                             </div>
 
                         </div>
@@ -315,45 +301,94 @@
 </div>
 
 
-@section scripts 
-{
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.18/signalr.min.js"></script>
+    <script>
+        // Tạo kết nối
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/customerHub")
+            .build();
+
+        // Bắt đầu kết nối
+        connection.start().then(function () {
+            console.log("SignalR Connected.");
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        // Nhận cập nhật khách hàng
+        connection.on("ReceiveCustomerUpdate", function (customer) {
+            console.log("SignalR message received: ", customer);
+            console.log("SignalR Connected ReceiveCustomer1111.");
+
+            if (customer && customer.customerId) {
+                const row = document.querySelector(`tr[data-customer-id="${customer.customerId}"]`);
+                if (row) {
+                    console.log("Updating row for customer: ", customer.customerId); // Log để kiểm tra
+
+                    row.innerHTML = `
+                                <td>${customer.fullName}</td>
+                                <td>${getGenderText(customer.gender)}</td>
+                                <td>${customer.email}</td>
+                                <td>${customer.phone}</td>
+                                <td>${customer.address1}</td>
+                                <td>${customer.address2}</td>
+                                <td>${customer.isActive}</td>
+                                <td>${customer.cccd}</td>
+                                <td>${new Date(customer.dob).toISOString().slice(0, 16)}</td>
+                                <td class="text-center">
+                                    <form method="post">
+                                        <button type="button" class="btn btn-primary" onclick="updateCustomer('${customer.customerId}', '${customer.fullName}', '${customer.gender}', '${customer.email}', '${customer.phone}', '${customer.address1}', '${customer.address2}', '${customer.isActive}', '${customer.cccd}', '${new Date(customer.dob).toISOString().slice(0, 16)}');">Update</button>
+                                        <button type="submit" class="btn btn-danger" asp-page-handler="Delete" asp-route-id="${customer.customerId}">Delete</button>
+                                    </form>
+                                </td>
+                            `;
+                } else {
+                    console.warn("Row for customer not found: ", customer.customerId); // Log để kiểm tra
+                }
+            } else {
+                console.warn("Invalid customer data received: ", customer); // Log để kiểm tra
+            }
+        });
+
+        function getGenderText(gender) {
+            switch (gender) {
+                case 'M':
+                    return 'Male';
+                case 'F':
+                    return 'Female';
+                default:
+                    return 'Other';
+            }
+        }
+    </script>
     <script type="text/javascript">
         function add() {
-            $('#customerModal').modal('show');                       
+            $('#customerModal').modal('show');
         }
-        
-        function update(customerId, fullName,gender, email, phone, address1, address2,isActive,CCCD,YOB) {
+
+        function update(customerId, fullName, gender, email, phone, address1, address2, isActive, CCCD, YOB) {
             // Điền dữ liệu vào form
             $('#frmUpdate input[name="Customer.CustomerId"]').val(customerId);
             $('#frmUpdate input[name="Customer.FullName"]').val(fullName);
             $('#frmUpdate input[name="Customer.Gender"]').val(gender);
-
             $('#frmUpdate input[name="Customer.Email"]').val(email);
             $('#frmUpdate input[name="Customer.Phone"]').val(phone);
             $('#frmUpdate input[name="Customer.Address1"]').val(address1);
-
             $('#frmUpdate input[name="Customer.Address2"]').val(address2);
-            //$('#frmUpdate input[name="Customer.IsActive"]').val(isActive);
             $('#frmUpdate input[name="Customer.CCCD"]').val(CCCD);
             $('#frmUpdate input[name="Customer.Dob"]').val(YOB);
-            var isActiveCheckbox = document.getElementById('isActiveCheckbox');
 
+            var isActiveCheckbox = document.getElementById('isActiveCheckbox');
             if (isActive.toLowerCase() === 'true') {
                 isActiveCheckbox.checked = true;
                 console.log('isActive:', isActive);
             } else {
-                isActiveCheckbox.checked = false; 
-                console.log('isActive:', isActive);                
+                isActiveCheckbox.checked = false;
+                console.log('isActive:', isActive);
             }
 
             $('#customerModalUpdate').modal('show');
-
         }
-
-
-        
     </script>
-   
-       
-    
 }

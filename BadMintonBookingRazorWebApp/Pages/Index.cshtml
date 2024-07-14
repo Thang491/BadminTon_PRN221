@@ -1,19 +1,84 @@
 ﻿@page
-@model IndexModel
+@model BadMintonBookingRazorWebApp.Pages.IndexModel
+
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Index";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-<style>
-    body {
-        background-image: url('/images/badminton-court.jpg');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        height: 100vh;
-    }
-</style>
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Court[0].CourtName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Court[0].Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Court[0].IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Court[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Court[0].Descrip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Court[0].OwnerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Court[0].Seats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Court[0].BadmintonNet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Court[0].Area)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Court) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourtName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descrip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Seats)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BadmintonNet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Area)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.CourtId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.CourtId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.CourtId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
