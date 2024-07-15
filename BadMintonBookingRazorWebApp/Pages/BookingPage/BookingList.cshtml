@@ -1,0 +1,411 @@
+﻿@page
+@using BadMintonData.Models
+@model BookingModel
+@{
+    ViewData["Title"] = "Booking Page";
+}
+
+<style>
+    body {
+        background-image: url('/images/badmintonn.jpg'); /* Hình nền của bạn */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        position: relative; /* Để các phần tử con có thể đặt vị trí tuyệt đối hoặc tương đối */
+    }
+
+</style>
+
+
+
+<div class="text-center">
+    <h1 class="display-6">Booking management</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <form id="searchForm" asp-page-handler="Search" method="post">
+            <div class="input-group">
+                <input type="text" class="form-control" name="searchInput" placeholder="Search...">
+                <button class="btn btn-secondary" type="submit" asp-page-handler="Search">Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4 text-end">
+        <button type="submit" class="btn btn-primary" onclick="addNewBooking()">
+            Add 
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr class="card-header">
+                    <th class="card-title text-center">Booking Id</th>
+                    <th class="card-title text-center">Customer</th>
+                    <th class="card-title text-center">Court</th>
+                    <th class="card-title text-center">SlotID</th>
+                    <th class="card-title text-center">PaymentType</th>
+                    <th class="card-title text-center">BookingDate</th>
+                    <th class="card-title text-center">PaymentStatus</th>
+                    <th class="card-title text-center">TotalPrice</th>
+                    <th class="card-title text-center">Address</th>
+                    <th class="card-title text-center">Description</th>
+                    <th class="card-title text-center">Phone</th>
+                    <th class="card-title text-center">Code</th>
+                    <th class="card-title text-center">Stauts</th>
+                    <th class="card-title text-center">Actions</th> <!-- Thêm cột Actions -->
+                    <th class="card-title text-center"></th>
+                </tr>
+            </thead>
+            <tbody class="tblcurrencyList">
+                @foreach (var booking in Model.Bookings)
+                {
+                    <tr>
+                        <td>@booking.BookingId</td>
+                        <td>@booking.Customer.FullName</td>
+                        <td>@booking.Court.CourtName</td>
+                        <td>@booking.Slot.SlotId</td>
+                        <td>@booking.PaymentType</td>
+                        <td>@booking.BookingDate.ToShortDateString()</td>
+                        <td>@(booking.PaymentStatus ? "Paid" : "Unpaid")</td>
+                        <td>@booking.TotalPrice.ToString("c")</td>
+                        <td>@booking.Address</td>
+                        <td>@booking.Description</td>
+                        <td>@booking.Phone</td>
+                        <td>@booking.Code</td>
+                        <td>@booking.Status</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" onclick="showBookingDetails('@booking.BookingId', '@booking.Customer.FullName', '@booking.Court.CourtName', '@booking.Slot.SlotStartTime', '@booking.PaymentType', '@booking.BookingDate', '@booking.PaymentStatus', '@booking.TotalPrice', '@booking.Address', '@booking.Description', '@booking.Phone','@booking.Code', '@booking.Status')">Detail</button>
+                  
+                            
+                        </td> 
+                        
+                      <td>
+                            <button type="button" class="btn btn-primary" onclick="updateBookingDetails('@booking.BookingId', '@booking.CustomerId', '@booking.CourtId', '@booking.SlotId', '@booking.PaymentType', '@booking.BookingDate.ToString("yyyy-MM-dd")', '@booking.PaymentStatus' , '@booking.TotalPrice', '@booking.Address', '@booking.Description', '@booking.Phone', '@booking.Code','@booking.Status')">Edit</button>
+
+                        </td>
+                       
+                        <td>
+                            <form method="post" asp-page-handler="Delete" asp-route-id="@booking.BookingId">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this booking?')">Delete</button>
+                            </form>
+                        </td>
+                       
+                    </tr>
+                }
+               
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="showBookingModal" tabindex="-1" role="dialog" aria-labelledby="showBookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="showBookingModalLabel">Booking Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Booking Id:</dt>
+                    <dd class="col-sm-8" id="bookingId"></dd>
+
+                    <!-- Thêm các trường thông tin khác của booking -->
+                    <dt class="col-sm-4">Customer:</dt>
+                    <dd class="col-sm-8" id="customerId"></dd>
+
+                    <dt class="col-sm-4">Court:</dt>
+                    <dd class="col-sm-8" id="courtId"></dd>
+
+                    <dt class="col-sm-4">Slot:</dt>
+                    <dd class="col-sm-8" id="slotId"></dd>
+
+                    <dt class="col-sm-4">Payment Type:</dt>
+                    <dd class="col-sm-8" id="paymentType"></dd>
+
+                    <dt class="col-sm-4">Booking Date:</dt>
+                    <dd class="col-sm-8" id="bookingDate"></dd>
+
+                    <dt class="col-sm-4">Payment Status:</dt>
+                    <dd class="col-sm-8" id="paymentStatus"></dd>
+
+                    <dt class="col-sm-4">Total Price:</dt>
+                    <dd class="col-sm-8" id="totalPrice"></dd>
+
+                    <dt class="col-sm-4">Address:</dt>
+                    <dd class="col-sm-8" id="address"></dd>
+
+                    <dt class="col-sm-4">Description:</dt>
+                    <dd class="col-sm-8" id="description"></dd>
+
+                    <dt class="col-sm-4">Phone:</dt>
+                    <dd class="col-sm-8" id="phone"></dd>
+
+                    <dt class="col-sm-4">Code:</dt>
+                    <dd class="col-sm-8" id="code"></dd>
+
+                    <dt class="col-sm-4">Status:</dt>
+                    <dd class="col-sm-8" id="status"></dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeShowModalButton" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Update Booking -->
+<div class="modal fade" id="updateBookingModal" tabindex="-1" role="dialog" aria-labelledby="updateBookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateBookingModalLabel">Update Booking</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="updateBookingForm" method="post" asp-page-handler="UpdateBooking">
+                <div class="modal-body">
+                    <input type="hidden" id="bookingId" name="BookingId" />
+                    <div class="form-group">
+    <label for="CustomerId">Customer</label>
+    <select class="form-control" id="customerId" name="CustomerId">
+        @foreach (var customer in (List<Customer>)ViewData["Customers"])
+        {
+            <option value="@customer.CustomerId">@customer.FullName</option>
+        }
+    </select>
+</div>
+<div class="form-group">
+    <label for="CourtId">Court</label>
+    <select class="form-control" id="courtId" name="CourtId">
+        @foreach (var court in (List<Court>)ViewData["Courts"])
+        {
+            <option value="@court.CourtId">@court.CourtName</option>
+        }
+    </select>
+</div>
+<div class="form-group">
+    <label for="SlotId">Slot</label>
+    <select class="form-control" id="slotId" name="SlotId">
+        @foreach (var slot in (List<CourtSlot>)ViewData["Slots"])
+        {
+            <option value="@slot.SlotId">@slot.SlotStartTime - @slot.SlotEndTime</option>
+        }
+    </select>
+</div>
+                    <div class="form-group">
+                        <label for="PaymentType">Payment Type</label>
+                        <input type="text" class="form-control" id="paymentType" name="PaymentType" />
+                    </div>
+                    <div class="form-group">
+                        <label for="BookingDate">Booking Date</label>
+                        <input type="date" class="form-control" id="bookingDate" name="BookingDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="PaymentStatus">Payment Status</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="paymentStatus" name="PaymentStatus" value="true"/>
+                            <label class="form-check-label" for="PaymentStatus">Paid</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="TotalPrice">Total Price</label>
+                        <input type="number" class="form-control" id="totalPrice" name="TotalPrice" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Address">Address</label>
+                        <input type="text" class="form-control" id="address" name="Address" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Description</label>
+                        <input type="text" class="form-control" id="description" name="Description" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Phone</label>
+                        <input type="text" class="form-control" id="phone" name="Phone" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Code</label>
+                        <input type="text" class="form-control" id="code" name="Code" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Status">Status</label>
+                        <input type="text" class="form-control" id="status" name="Status" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="closeUpdateModalButton">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal add Booking -->
+<div class="modal fade" id="addBookingModal" tabindex="-1" role="dialog" aria-labelledby="addBookingModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBookingModal">Add Booking</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="addBookingModal" method="post" asp-page-handler="AddBooking">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="CustomerId">Customer</label>
+                        <select class="form-control" id="customerId" name="AddCustomerId">
+                            @foreach (var customer in (List<Customer>)ViewData["Customers"])
+                            {
+                                <option value="@customer.CustomerId">@customer.FullName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="CourtId">Court</label>
+                        <select class="form-control" id="courtId" name="AddCourtId">
+                            @foreach (var court in (List<Court>)ViewData["Courts"])
+                            {
+                                <option value="@court.CourtId">@court.CourtName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="SlotId">Slot</label>
+                        <select class="form-control" id="slotId" name="AddSlotId">
+                            @foreach (var slot in (List<CourtSlot>)ViewData["Slots"])
+                            {
+                                <option value="@slot.SlotId">@slot.SlotStartTime - @slot.SlotEndTime</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="PaymentType">Payment Type</label>
+                        <input type="text" class="form-control" id="paymentType" name="AddPaymentType" />
+                    </div>
+                    <div class="form-group">
+                        <label for="BookingDate">Booking Date</label>
+                        <input type="date" class="form-control" id="bookingDate" name="AddBookingDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="PaymentStatus">Payment Status</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="AddPaymentStatus" name="AddPaymentStatus" value="true" />
+                            <label class="form-check-label" for="PaymentStatus">Paid</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="TotalPrice">Total Price</label>
+                        <input type="number" class="form-control" id="totalPrice" name="AddTotalPrice" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Address">Address</label>
+                        <input type="text" class="form-control" id="address" name="AddAddress" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Description</label>
+                        <input type="text" class="form-control" id="description" name="AddDescription" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Phone</label>
+                        <input type="text" class="form-control" id="phone" name="AddPhone" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Code</label>
+                        <input type="text" class="form-control" id="code" name="AddCode" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Status">Status</label>
+                        <input type="text" class="form-control" id="status" name="AddStatus" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="closeAddModalButton">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    function showBookingDetails(bookingId, customer, court, slot, paymentType, bookingDate, paymentStatus, totalPrice, address, description, phone,code, status) {
+        // Điền dữ liệu của booking vào modal
+        $('#bookingId').text(bookingId);
+        $('#customerId').text(customer);
+        $('#courtId').text(court);
+        $('#slotId').text(slot);
+        $('#paymentType').text(paymentType);
+        $('#bookingDate').text(bookingDate);
+        $('#paymentStatus').text(paymentStatus ? 'Paid' : 'Unpaid');
+        $('#totalPrice').text(totalPrice);
+        $('#address').text(address);
+        $('#description').text(description);
+        $('#phone').text(phone);
+        $('#code').text(code);
+        $('#status').text(status);
+
+        // Mở modal
+        $('#showBookingModal').modal('show');
+    }
+
+    function updateBookingDetails(bookingId, customer, court, slot, paymentType, bookingDate, paymentStatus, totalPrice, address, description, phone, code, status) {
+        // Điền dữ liệu của booking vào modal
+        $('[name="BookingId"]').val(bookingId);
+        // Đặt giá trị cho select có name là CustomerId
+        $('[name="CustomerId"]').val(customer);
+
+        // Đặt giá trị cho select có name là CourtId
+        $('[name="CourtId"]').val(court);
+
+        // Đặt giá trị cho select có name là SlotId
+        $('[name="SlotId"]').val(slot);
+        $('[name="PaymentType"]').val(paymentType);
+        $('[name="BookingDate"]').val(bookingDate);
+        let paymentStatusString = paymentStatus.toString();
+
+        // Kiểm tra và thiết lập trạng thái của checkbox
+        if (paymentStatusString === 'True') {
+            $('[name="PaymentStatus"]').prop('checked', true);
+        } else {
+            $('[name="PaymentStatus"]').prop('checked', false);
+        }
+        // Set giá trị cho checkbox paymentStatus
+        $('[name="TotalPrice"]').val(totalPrice);
+        $('[name="Address"]').val(address);
+        $('[name="Description"]').val(description);
+        $('[name="Phone"]').val(phone);
+        $('[name="Code"]').val(code);
+        $('[name="Status"]').val(status);
+
+        // Mở modal
+        $('#updateBookingModal').modal('show');
+    }
+
+    function addNewBooking() {
+        $('#addBookingModal').modal('show');
+    }
+
+    document.getElementById('closeUpdateModalButton').addEventListener('click', function () {
+        $('#updateBookingModal').modal('hide');
+    });
+    document.getElementById('closeAddModalButton').addEventListener('click', function () {
+        $('#addBookingModal').modal('hide');
+    });
+    document.getElementById('closeShowModalButton').addEventListener('click', function () {
+        $('#showBookingModal').modal('hide');
+    });
+</script>
+
