@@ -1,0 +1,79 @@
+﻿<Window x:Class="BadMintonWpfApp.UI.Category.wCourtSlot"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BadMintonWpfApp.UI.Category"
+        mc:Ignorable="d"
+        Title="wCourtSlot" Height="450" Width="1200">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <GroupBox Header="Court Slots Form" Margin="10">
+                <Grid Height="50">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Content="Court Name" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="80" />
+                    <ComboBox Grid.Column="1" x:Name="txtCourtId" Text="{Binding Path=CourtSlots.CourtId, Mode=TwoWay}" VerticalAlignment="Center" Margin="5,13,0,12" Width="140" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
+                    <TextBox x:Uid="txtSlotsId" Grid.Column="0" Grid.Row="0" x:Name="txtSlotsId" Text="{Binding Path=CourtSlots.SlotId, Mode=TwoWay}" Margin="5,13,0,12" Width="0" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
+                    <Label Grid.Column="2" Grid.Row="0" Content="Start Time" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="63" />
+                    <TextBox Grid.Column="3" Grid.Row="0" x:Name="txtCourtSlotsStartTime" Text="{Binding Path=CourtSlots.SlotStartTime, Mode=TwoWay}"  Margin="5,13,0,12"  Width="140" HorizontalAlignment="Left"/>
+                    <Label Grid.Column="4" Grid.Row="0" Content="End Time" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="59" />
+                    <TextBox Grid.Row="0" Grid.Column="5" x:Name="txtCourtSlotsEndTime" Text="{Binding Path=CourtSlots.SlotEndTime, Mode=TwoWay}"  Margin="5,13,0,12"  Width="140" HorizontalAlignment="Left"/>
+                    <Label Grid.Column="6" Grid.Row="0" Content="Slot Price" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="59" />
+                    <TextBox Grid.Column="7" Grid.Row="0" x:Name="txtCourtsSlotPrice" Text="{Binding Path=CourtSlots.SlotPrice, Mode=TwoWay}"  Margin="5,13,0,12"  Width="140" HorizontalAlignment="Left"/>
+                    <Label Grid.Column="8" Grid.Row="0" Content="Satus" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="38" />
+                    <TextBox Grid.Column="9" Grid.Row="0" x:Name="txtCourtSlotsStatus" Text="{Binding Path=CourtSlots.Status, Mode=TwoWay}"  Margin="5,13,0,12"  Width="140" HorizontalAlignment="Left"/>
+                </Grid>
+            </GroupBox>
+            <StackPanel Height="40" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="ButtonSave" Content="Save" Height="30" Width="80" Click="ButtonSave_Click"/>
+                <Button x:Name="ButtonCancel" Content="Cancel" Height="30" Width="80" Click="ButtonCancel_Click"/>
+            </StackPanel>
+            <StackPanel Height="210">
+                <DataGrid x:Name="grdCourtSlots" AutoGenerateColumns="False" ItemsSource="{Binding CourtSlots}" CanUserAddRows="False" Height="200" Margin="10" MouseDoubleClick="grdCourtSlots_MouseDoubleClick" SelectionMode="Single" SelectionUnit="FullRow">
+                    <DataGrid.Columns>
+                        <!--<DataGridTextColumn Header="Code" Binding="{Binding Path=Id}" Visibility="Hidden"/>-->
+                        <DataGridTextColumn Header="Slot ID" Binding="{Binding Path=SlotId}" Visibility="Hidden"/>
+                        <DataGridTextColumn Header="Court ID" Binding="{Binding Path=CourtId}" Visibility="Hidden"/>
+                        <DataGridTextColumn Header="Start Time" Binding="{Binding Path=SlotStartTime}" Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="End Time" Binding="{Binding Path=SlotEndTime}" Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Slot Price" Binding="{Binding Path=SlotPrice}" Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Path=Status}" Width="100"  IsReadOnly="True"/>
+                        <DataGridTemplateColumn Width="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="X" x:Name="grdCourtSlots_ButtonDelete" CommandParameter="{Binding Path=SlotId}" Click="grdCourtSlots_ButtonDelete_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--<DataGridTemplateColumn Width="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete" x:Name="ButtonDelete" CommandParameter="{Binding Path=Id}"
+                            Command="{Binding Path=DataContext.DeleteCommand, RelativeSource={RelativeSource FindAncestor,
+                                    AncestorType=Window}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

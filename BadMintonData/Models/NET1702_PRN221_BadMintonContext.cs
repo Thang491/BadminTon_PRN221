@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace BadMintonData.Models
@@ -152,6 +149,8 @@ namespace BadMintonData.Models
 
                 entity.Property(e => e.SlotPrice).HasMaxLength(255);
 
+                entity.Property(e => e.Status).HasMaxLength(255);
+
                 entity.Property(e => e.SlotStartTime).HasMaxLength(255);
 
                 entity.HasOne(d => d.Court)
@@ -174,7 +173,7 @@ namespace BadMintonData.Models
                 entity.Property(e => e.Email).HasMaxLength(255);
                 entity.Property(e => e.FullName).HasMaxLength(255);
                 entity.Property(e => e.Phone).HasMaxLength(255);
-                entity.Property(e => e.CCCD).HasMaxLength(255);
+                entity.Property(e => e.Cccd).HasMaxLength(255);
                 entity.Property(e => e.Dob).HasColumnType("datetime");
                 entity.Property(e => e.Gender).HasColumnType("bit");
                 entity.Property(e => e.IsActive).HasColumnType("bit");
