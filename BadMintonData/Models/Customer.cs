@@ -23,7 +23,7 @@ public partial class Customer
 
     public bool IsActive { get; set; }
 
-    public string Cccd { get; set; }
+    public string CCCD { get; set; }
 
     public DateTime Dob { get; set; }
 

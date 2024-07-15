@@ -173,7 +173,7 @@ namespace BadMintonData.Models
                 entity.Property(e => e.Email).HasMaxLength(255);
                 entity.Property(e => e.FullName).HasMaxLength(255);
                 entity.Property(e => e.Phone).HasMaxLength(255);
-                entity.Property(e => e.Cccd).HasMaxLength(255);
+                entity.Property(e => e.CCCD).HasMaxLength(255);
                 entity.Property(e => e.Dob).HasColumnType("datetime");
                 entity.Property(e => e.Gender).HasColumnType("bit");
                 entity.Property(e => e.IsActive).HasColumnType("bit");

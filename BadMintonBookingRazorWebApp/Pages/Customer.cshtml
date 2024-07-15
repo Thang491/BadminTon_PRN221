@@ -69,13 +69,13 @@
                             <td>@customer.Address1</td>
                             <td>@customer.Address2</td>
                             <td>@customer.IsActive</td>
-                            <td>@customer.Cccd</td>
+                            <td>@customer.CCCD</td>
                             <td>@customer.Dob.ToString("yyyy-MM-ddTHH:mm")</td>
                             <td class="text-center">
 
                                 <form method="post">
                                     @*                                    asp-page-handler="Update" asp-route-id="@customer.CustomerId"*@
-                                    <button type="button" class="btn btn-primary" onclick="update('@customer.CustomerId', '@customer.FullName','@customer.Gender', '@customer.Email', '@customer.Phone', '@customer.Address1','@customer.Address2','@customer.IsActive','@customer.Cccd','@customer.Dob.ToString("yyyy-MM-ddTHH:mm")');">Update</button>
+                                    <button type="button" class="btn btn-primary" onclick="update('@customer.CustomerId', '@customer.FullName','@customer.Gender', '@customer.Email', '@customer.Phone', '@customer.Address1','@customer.Address2','@customer.IsActive','@customer.CCCD','@customer.Dob.ToString("yyyy-MM-ddTHH:mm")');">Update</button>
 
                                     <button type="submit" class="btn btn-danger" asp-page-handler="Delete" asp-route-id="@customer.CustomerId">Delete</button>
                                 </form>
@@ -191,7 +191,7 @@
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="1">Số Căn Cước</label>
-                                    <input asp-for="Customer.Cccd" class="form-control" />
+                                    <input asp-for="Customer.CCCD" class="form-control" />
                                 </div>
                                 <div class="col-md-6">
                                     <label for="1">Ngày sinh</label>
@@ -282,7 +282,7 @@
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label for="1">Số Căn Cước</label>
-                                <input asp-for="Customer.Cccd" class="form-control" />
+                                <input asp-for="Customer.CCCD" class="form-control" />
                             </div>
                             <div class="col-md-6">
                                 <label for="1">Ngày sinh</label>

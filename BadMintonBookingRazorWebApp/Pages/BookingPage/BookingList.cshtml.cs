@@ -28,6 +28,7 @@ namespace BadMintonBookingRazorWebApp.Pages
 
         public void OnGet()
         {
+            
             Bookings = _context.Bookings
               .Include(b => b.Customer)
               .Include(b => b.Court)
