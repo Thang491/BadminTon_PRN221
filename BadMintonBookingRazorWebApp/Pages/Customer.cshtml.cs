@@ -1,21 +1,19 @@
 ﻿using BadMintonBookingBusiness;
 using BadMintonBookingBusiness.Categoryy;
-using BadMintonBookingRazorWebApp.Pages.CusHub;
 using BadMintonBookingRazorWebApp.Pages.Shared;
 using BadMintonData.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
-using System.Runtime.CompilerServices;
 
 namespace BadMintonBookingRazorWebApp.Pages
 {
+    [Authorize]
+
     public class CustomerModel : PageModel
     {
-        private readonly IHubContext<CustomerHub> _hubContext;
-
-
         private readonly ICustomerBusiness _customerBusiness = new CustomerBusiness();
         public string Message { get; set; } = default;
         [BindProperty]
@@ -24,16 +22,10 @@ namespace BadMintonBookingRazorWebApp.Pages
         public List<SelectListItem> GenderOptions { get; set; }
         [BindProperty]
         public string SearchInput { get; set; }
-
-
         public PaginatedList<Customer> customer { get; set; }
         [BindProperty(SupportsGet = true)]
         public int PageIndex { get; set; } = 1;
         public int TotalPages { get; set; }
-        public CustomerModel(IHubContext<CustomerHub> hubContext)
-        {
-            _hubContext = hubContext;
-        }
 
         public void OnGet()
         {
@@ -45,8 +37,6 @@ namespace BadMintonBookingRazorWebApp.Pages
             var customers = this.GetCustomer();
             int pageSize = 5;
             customer = PaginatedList<Customer>.Create(customers.AsQueryable(), PageIndex, pageSize);
-
-
         }
         public string GetGenderText(bool gender)
         {
@@ -61,9 +51,7 @@ namespace BadMintonBookingRazorWebApp.Pages
         public async Task<IActionResult> OnPostUpdate()
         {
 
-            await this.UpdateCustomer(this.Customer);
-            await _hubContext.Clients.All.SendAsync("ReceiveCustomerUpdate", Customer);
-                                                     
+            await this.UpdateCustomer(this.Customer);                                                     
             return RedirectToPage();
         }
 
@@ -113,10 +101,8 @@ namespace BadMintonBookingRazorWebApp.Pages
         private List<Customer> GetCustomer()
         {
             var customerResult = _customerBusiness.GetAll();
-
             if (customerResult.Status > 0 && customerResult.Result.Data != null)
             {
-
                 var customer = (List<Customer>)customerResult.Result.Data;
                 return customer;
             }

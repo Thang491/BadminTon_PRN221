@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace BadMintonBookingBusiness.Categoryy
 {
-    public interface ICourtBusiness
+    public interface ICustomerBusiness
     {
         Task<IBusinessResult> GetAll();
         Task<IBusinessResult> GetById(Guid id);
-        Task<IBusinessResult> Save(Court court);
-        Task<IBusinessResult> Update(Court court);
+        Task<IBusinessResult> Save(Customer customer);
+        Task<IBusinessResult> Update(Customer customer);
         Task<IBusinessResult> DeleteById(Guid id);
-        Task<IBusinessResult> SearchCourtByName(string name);
+        Task<IBusinessResult> SearchCustomerByName(string name);
     }
 }
