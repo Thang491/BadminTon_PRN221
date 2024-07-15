@@ -27,7 +27,7 @@ namespace BadMintonData
     
         public CourtSlotsRepository CourtSlotsRepository
         {
-            get { return _courtSlot ??= new Repository.CourtSlotsRepository(_unitOfWorkContext); }
+            get { return _courtslot ??= new Repository.CourtSlotsRepository(_unitOfWorkContext); }
             //get { return _customer ??= new Repository.CustomerRepository(); }
         }
         public CourtRepository CourtRepository
