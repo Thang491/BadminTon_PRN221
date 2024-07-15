@@ -263,10 +263,8 @@
             $('#frmUpdate input[name="CourtSlot.CourtId"]').val(courtid);
             $('#frmUpdate input[name="CourtSlot.SlotStartTime"]').val(startTime);
             $('#frmUpdate input[name="CourtSlot.SlotEndTime"]').val(endTime);
-            $('#frmUpdate input[name="CourtSlot.Status"]').val(status);
             $('#frmUpdate input[name="CourtSlot.SlotPrice"]').val(price);
             var isActiveCheckbox = document.getElementById('isActiveCheckbox');
-
             if (status.toLowerCase() === 'true') {
                 isActiveCheckbox.checked = true;
                 console.log('isActive:', status);
