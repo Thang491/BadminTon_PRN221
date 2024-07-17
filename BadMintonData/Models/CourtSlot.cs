@@ -13,8 +13,8 @@ namespace BadMintonData.Models
 
         public Guid SlotId { get; set; }
         public Guid CourtId { get; set; }
-        public string SlotStartTime { get; set; } = null!;
-        public string SlotEndTime { get; set; } = null!;
+        public DateTime SlotStartTime { get; set; } 
+        public DateTime SlotEndTime { get; set; } 
         public bool Status { get; set; }
         public string SlotPrice { get; set; } = null!;
 
