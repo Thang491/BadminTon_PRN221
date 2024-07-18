@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BadMintonWpfApp.UI.Category"
+        xmlns:local="clr-namespace:BadMintonWpfApp.UI.Category" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="wCourtSlot" Height="450" Width="1200">
     <Grid>
@@ -22,21 +22,21 @@
                         <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="150"/>
-                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="98"/>
                         <ColumnDefinition Width="150"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="0*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Grid.Row="0" Content="Court Name" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="80" />
-                    <ComboBox Grid.Column="1" x:Name="txtCourtId" Text="{Binding Path=CourtSlots.CourtId, Mode=TwoWay}" VerticalAlignment="Center" Margin="5,13,0,12" Width="140" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
-                    <TextBox x:Uid="txtSlotsId" Grid.Column="0" Grid.Row="0" x:Name="txtSlotsId" Text="{Binding Path=CourtSlots.SlotId, Mode=TwoWay}" Margin="5,13,0,12" Width="0" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
+                    <Label Grid.Row="0" Content="Court Name" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="80" />
+                    <ComboBox Grid.Column="1" x:Name="txtCourtId" Text="{Binding Path=CourtSlots.CourtId, Mode=TwoWay}" VerticalAlignment="Center" Width="140" HorizontalAlignment="Center" Height="21"/>
+                    <TextBox x:Uid="txtSlotsId" Grid.Column="0" Grid.Row="0" x:Name="txtSlotsId" Text="{Binding Path=CourtSlots.SlotId, Mode=TwoWay}" Margin="5,13,0,12" Width="0" HorizontalAlignment="Left"/>
                     <Label Grid.Column="2" Grid.Row="0" Content="Start Time" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="63" />
-                    <TextBox Grid.Column="3" Grid.Row="0" x:Name="txtCourtSlotsStartTime" Text="{Binding Path=CourtSlots.SlotStartTime, Mode=TwoWay}"  Margin="5,13,0,12"  Width="140" HorizontalAlignment="Left"/>
+                    <xctk:DateTimePicker Grid.Column="3" Grid.Row="0" x:Name="txtCourtSlotsStartTime" Text="{Binding Path=CourtSlots.SlotStartTime, Mode=TwoWay}"  Margin="0,13,0,12"  Width="140" HorizontalAlignment="Center"/>
                     <Label Grid.Column="4" Grid.Row="0" Content="End Time" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="59" />
-                    <TextBox Grid.Row="0" Grid.Column="5" x:Name="txtCourtSlotsEndTime" Text="{Binding Path=CourtSlots.SlotEndTime, Mode=TwoWay}"  Margin="5,13,0,12"  Width="140" HorizontalAlignment="Left"/>
+                    <xctk:DateTimePicker Grid.Row="0" Grid.Column="5" x:Name="txtCourtSlotsEndTime" Text="{Binding Path=CourtSlots.SlotEndTime, Mode=TwoWay}"  Margin="0,13,0,12"  Width="140" HorizontalAlignment="Center"/>
                     <Label Grid.Column="6" Grid.Row="0" Content="Slot Price" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="59" />
-                    <TextBox Grid.Column="7" Grid.Row="0" x:Name="txtCourtsSlotPrice" Text="{Binding Path=CourtSlots.SlotPrice, Mode=TwoWay}"  Margin="5,13,0,12"  Width="140" HorizontalAlignment="Left"/>
-                    <Label Grid.Column="8" Grid.Row="0" Content="Satus" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="38" />
-                    <TextBox Grid.Column="9" Grid.Row="0" x:Name="txtCourtSlotsStatus" Text="{Binding Path=CourtSlots.Status, Mode=TwoWay}"  Margin="5,13,0,12"  Width="140" HorizontalAlignment="Left"/>
+                    <TextBox Grid.Column="7" Grid.Row="0" x:Name="txtCourtsSlotPrice" Text="{Binding Path=CourtSlots.SlotPrice, Mode=TwoWay}"  Margin="0,13,0,12"  Width="140" HorizontalAlignment="Center"/>
+                    <Label Grid.Column="8" Grid.Row="0" Content="Status" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="52" Margin="10,0,0,0" />
+                    <TextBox Grid.Column="8" Grid.Row="0" x:Name="txtCourtSlotsStatus" Text="{Binding Path=CourtSlots.Status, Mode=TwoWay}"  Margin="83,13,0,12"  Width="140" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
                 </Grid>
             </GroupBox>
             <StackPanel Height="40" Orientation="Horizontal" HorizontalAlignment="Right">

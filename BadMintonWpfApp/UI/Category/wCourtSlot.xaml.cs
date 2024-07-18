@@ -11,9 +11,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace BadMintonWpfApp.UI.Category
 {
@@ -93,7 +90,7 @@ namespace BadMintonWpfApp.UI.Category
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
             string slotId = txtSlotsId.Text;
-            string courtId = txtCourtId.SelectedValue.ToString();
+            string courtId = txtCourtId.Text;
             string startTime = txtCourtSlotsStartTime.Text;
             string endTime = txtCourtSlotsEndTime.Text;
             string status = txtCourtSlotsStatus.Text;
@@ -120,8 +117,8 @@ namespace BadMintonWpfApp.UI.Category
                     Status = bool.Parse(status),
                 };
                 var result = _courtSlotBusiness.Save(courtSlot);
-                txtCourtSlotsStartTime.Clear();
-                txtCourtSlotsEndTime.Clear();
+                txtCourtSlotsEndTime.Value = null;
+                txtCourtSlotsStartTime.Value = null;
                 txtCourtSlotsStatus.Clear();
                 txtCourtsSlotPrice.Clear();
                 MessageBox.Show("Slot added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -133,14 +130,14 @@ namespace BadMintonWpfApp.UI.Category
                 if (result != null)
                 {
                     CourtSlot courtSlot = (CourtSlot)result.Data;
-                    courtSlot.SlotStartTime = DateTime.Parse("startTime");
-                    courtSlot.SlotEndTime = DateTime.Parse("endTime");
+                    courtSlot.SlotStartTime = DateTime.Parse(startTime);
+                    courtSlot.SlotEndTime = DateTime.Parse(endTime);
                     courtSlot.SlotPrice = slotPrice;
                     var Updateresult = _courtSlotBusiness.Update(courtSlot);
                     if (Updateresult != null)
                     {
-                        txtCourtSlotsStartTime.Clear();
-                        txtCourtSlotsEndTime.Clear();
+                        txtCourtSlotsEndTime.Value = null;
+                        txtCourtSlotsStartTime.Value = null;
                         txtCourtSlotsStatus.Clear();
                         txtCourtsSlotPrice.Clear();
                         MessageBox.Show("Slot update successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);

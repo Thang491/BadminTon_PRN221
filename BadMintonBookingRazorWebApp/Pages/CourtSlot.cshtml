@@ -143,6 +143,7 @@
                         <div class="col-md-12">
                             <div class="form-group row">
                                 <div class="col-md-6">
+                                    <input type="hidden" asp-for="CourtSlot.SlotId" />
                                     <label asp-for="CourtSlot.CourtId" class="control-label"></label>
                                     <select asp-for="CourtSlot.CourtId" class="form-control" asp-items="Model.CourtNameOptions"></select>
                                     <span asp-validation-for="CourtSlot.CourtId" class="text-danger"></span>
